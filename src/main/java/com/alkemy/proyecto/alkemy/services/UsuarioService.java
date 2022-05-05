@@ -1,8 +1,11 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.services;
 
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.alkemy.proyecto.alkemy.entities.Usuario;
+import com.alkemy.proyecto.alkemy.repositories.UsuarioRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

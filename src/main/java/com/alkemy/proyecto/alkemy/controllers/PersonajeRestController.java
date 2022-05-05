@@ -1,11 +1,16 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+
+import com.alkemy.proyecto.alkemy.entities.Personaje;
+import com.alkemy.proyecto.alkemy.services.IPersonaje;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,18 +32,18 @@ public class PersonajeRestController {
     private IPersonaje servicePersonaje;
 
     @GetMapping("/characters")
-    public Iterable<Object[]> index() {
-        return servicePersonaje.getAllPersonajes();
+    public List<Personaje> findAll() {
+        return servicePersonaje.findAll();
     }
 
     @GetMapping("/characters/{id}")
-    public Personaje showDetail(@PathVariable int id) {
-        return servicePersonaje.findById(id);
+    public ResponseEntity<Personaje> showDetail(@PathVariable int id) {
+        Personaje personaje =  servicePersonaje.findById(id);
+        return new ResponseEntity<Personaje>(personaje, HttpStatus.OK);
     }
 
     @PostMapping("/characters")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Personaje create(@RequestBody Personaje personaje, @RequestParam("archivo") MultipartFile archivo) {
+    public ResponseEntity<Personaje> create(@RequestBody Personaje personaje, @RequestParam("archivo") MultipartFile archivo) {
 
         if(!archivo.isEmpty()) {
             String nombreArchivo = archivo.getOriginalFilename();
@@ -53,14 +57,14 @@ public class PersonajeRestController {
             }
 
             personaje.setImagen(nombreArchivo);
+            servicePersonaje.save(personaje);
            
         }
-        return servicePersonaje.save(personaje);
+        return ResponseEntity.status(HttpStatus.CREATED).body(personaje);
     }
 
     @PutMapping("/characters/{id}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Personaje update(@RequestBody Personaje personaje, @PathVariable int id) {
+    public ResponseEntity<Personaje> update(@RequestBody Personaje personaje, @PathVariable int id) {
         Personaje personajeActualizar = servicePersonaje.findById(id);
 
         personajeActualizar.setNombre(personaje.getNombre());
@@ -70,24 +74,28 @@ public class PersonajeRestController {
         personajeActualizar.setHistoria(personaje.getHistoria());
         personajeActualizar.setPeliculas(personaje.getPeliculas());
 
-        return servicePersonaje.save(personajeActualizar);
+        servicePersonaje.save(personajeActualizar);
+
+        return ResponseEntity.status(HttpStatus.OK).body(personajeActualizar);
 
     }
 
     @DeleteMapping("/characters/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         servicePersonaje.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @GetMapping(params= "nombre")
-    public Personaje getNombre(@PathVariable String nombre) {
-        return servicePersonaje.buscarNombre(nombre);
+    public ResponseEntity<Personaje> getNombre(@PathVariable String nombre) {
+        Personaje personaje =  servicePersonaje.buscarNombre(nombre);
+        return ResponseEntity.status(HttpStatus.FOUND).body(personaje);
     }
 
     @GetMapping("/characters/age/{edad}")
-    public Personaje getEdad(@PathVariable int edad) {
-        return servicePersonaje.buscarPersonajeEdad(edad);
+    public ResponseEntity<Personaje> getEdad(@PathVariable int edad) {
+        Personaje personaje = servicePersonaje.buscarPersonajeEdad(edad);
+        return ResponseEntity.status(HttpStatus.FOUND).body(personaje);
     }
 
   

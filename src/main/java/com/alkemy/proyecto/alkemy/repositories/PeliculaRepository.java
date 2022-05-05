@@ -1,15 +1,14 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.repositories;
 
 import java.util.Date;
 import java.util.List;
 
+import com.alkemy.proyecto.alkemy.entities.Genero;
+import com.alkemy.proyecto.alkemy.entities.Pelicula;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 public interface PeliculaRepository extends JpaRepository<Pelicula, Integer> {
-    
-    @Query(value = "SELECT p.imagen, p.titulo, p.fecha FROM Pelicula p")
-    Iterable<Object[]> getAll();
 
     Pelicula findByTitulo(String titulo);
 

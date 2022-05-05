@@ -1,5 +1,10 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.services;
 
+
+import java.util.List;
+
+import com.alkemy.proyecto.alkemy.entities.Personaje;
+import com.alkemy.proyecto.alkemy.repositories.PersonajeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +35,6 @@ public class PersonajeService implements IPersonaje {
     }
 
     @Override
-    public Iterable<Object[]> getAllPersonajes() {
-        
-        return repoPersonaje.getAllPersonajes();
-    }
-
-    @Override
     public Personaje buscarNombre(String nombre) {
         return repoPersonaje.findByNombre(nombre);
     }
@@ -44,6 +43,12 @@ public class PersonajeService implements IPersonaje {
     public Personaje buscarPersonajeEdad(int edad) {
         
         return repoPersonaje.findByEdad(edad);
+    }
+
+    @Override
+    public List<Personaje> findAll() {
+        
+        return repoPersonaje.findAll();
     }
 
    

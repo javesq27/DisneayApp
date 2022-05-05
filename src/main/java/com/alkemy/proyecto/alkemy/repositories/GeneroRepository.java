@@ -1,4 +1,6 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.repositories;
+
+import com.alkemy.proyecto.alkemy.entities.Genero;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

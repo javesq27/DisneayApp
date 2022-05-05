@@ -1,4 +1,4 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,7 +1,12 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.services;
 
 import java.util.Date;
 import java.util.List;
+
+import com.alkemy.proyecto.alkemy.entities.Genero;
+import com.alkemy.proyecto.alkemy.entities.Pelicula;
+import com.alkemy.proyecto.alkemy.repositories.GeneroRepository;
+import com.alkemy.proyecto.alkemy.repositories.PeliculaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +39,6 @@ public class PeliculaService implements IPelicula {
     }
 
     @Override
-    public Iterable<Object[]> getAll() {
-        
-        return repoPelicula.getAll();
-    }
-
-    @Override
     public Pelicula buscarTitulo(String titulo) {
         
         return repoPelicula.findByTitulo(titulo);
@@ -60,6 +59,12 @@ public class PeliculaService implements IPelicula {
     public List<Pelicula> buscarFechas(Date fecha1, Date fecha2) {
         
         return repoPelicula.findByFechaBetweenOrderByFechaDesc(fecha1, fecha2);
+    }
+
+    @Override
+    public List<Pelicula> findAll() {
+
+        return repoPelicula.findAll();
     }
     
 }

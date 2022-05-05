@@ -1,4 +1,4 @@
-package com.alkemy.proyecto.alkemy;
+package com.alkemy.proyecto.alkemy.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
